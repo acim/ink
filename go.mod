@@ -1,4 +1,4 @@
-module blur
+module go.acim.net/ink
 
 go 1.19
 
