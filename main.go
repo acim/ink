@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/montanaflynn/stats"
 	"gocv.io/x/gocv"
 )
 
@@ -19,6 +20,16 @@ func main() {
 
 	gocv.Laplacian(gray, &laplacian, gocv.MatTypeCV64F, 1, 1, 0, gocv.BorderDefault)
 	gray.Close()
+
+	l2, err := laplacian.DataPtrFloat64()
+	if err != nil {
+		panic(err)
+	}
+
+	v2, err := stats.Variance(stats.Float64Data(l2))
+	if err != nil {
+		panic(err)
+	}
 
 	meanStdDev := gocv.NewMat()
 
@@ -37,5 +48,7 @@ func main() {
 
 	variance := math.Pow(sd[0], 2)
 
-	fmt.Println(variance)
+	fmt.Println("Variance:", variance)
+
+	fmt.Println("Stats variance:", v2)
 }
